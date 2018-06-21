@@ -1,76 +1,53 @@
-class Army{
-  private int    posX,    posY,    nextX,  nextY;
-  private int    deltaX,  deltaY;
-  private float  stepX,  stepY, distance, factorStep;
-  private float  angle, newAngle;
+class Army extends MovingPiece{
   
-  Army(int startX, int startY){
-     posX = startX; posY = startY;
+  ArrayList<Point>  list       = new ArrayList<Point>();
+  int               atWayPoint = 0;
+  
+  Army(int x, int y){
+    super(x,y);
   }
   
-  void setNewPosition(int x, int y){
-    nextX  = x; nextY = y;
-    deltaX = nextX - posX;
-    deltaY = nextY- posY;
-    newAngle  = atan2(deltaY,deltaX);
+  void addWayPoint(int x,int y){
+    Point p       =  new Point(x,y);
     
-    calculateMovingSteps();
-  }
-  
-  
-  
-  void display(){
-    displayArmy(); 
-    updateAngle(3);
-    updatePosition();
-    
-    debugingText();
-  }
-  
-  private void displayArmy(){
-    noFill();
-    triangle(posX + cos(angle-radians(150))*20, posY+sin(angle-radians(150))*20, posX + cos(angle+radians(150))*20, posY+sin(angle+radians(150))*20,posX + cos(angle)*20, posY+sin(angle)*20);
-    ellipse(posX,posY,3,3);
-  }
-  
-  private boolean updateAngle(float deg){
-    boolean updateing = false;
-      if(abs(angle -newAngle) > radians(deg)){
-        updateing = true;
-        if(abs(angle -newAngle)<PI){
-          if(angle -newAngle > 0) angle = angle - radians(deg); else if(angle -newAngle < 0) angle = angle + radians(deg);
-        }else{
-          if(angle -newAngle > 0) angle = angle + radians(deg); else if(angle -newAngle < 0) angle = angle - radians(deg);
-        }
+    if(list.size()>0){
+      Point p_last  =  list.get(list.size()-1);  
+      if(sqrt((p_last.corX-p.corX)*(p_last.corX-p.corX)+(p_last.corY-p.corY)*(p_last.corY-p.corY))>10)
+       list.add(p);
+    }else{
+      list.add(p);
     }
-    if(angle < -PI) angle = angle + 2*PI;
-    if(angle >  PI) angle = angle - 2*PI;
-    return updateing;
+  }
+  
+  void displayAndUpdate(){
+    super.display();
+    for(Point p: list){
+      ellipse(p.corX,p.corY,5,5);
+    }
+    if(!super.isMoving() && atWayPoint < list.size()){
+      Point p =list.get(atWayPoint);
+      super.setNewPosition(p.corX,p.corY);
+      atWayPoint++;
+    }
+    debugingText(true);
   }
 
-  private void calculateMovingSteps(){
-     if(deltaX != 0 && deltaY != 0){
-      if(abs(deltaX) < abs(deltaY)){ stepY = deltaY/deltaX; stepX = 1;}else{ stepX = deltaX/deltaY; stepY = 1;} 
-    }else{
-      stepX = deltaX; stepY = deltaY;
+//DEBUGING METHODS........................
+  private void debugingText(boolean enabled){
+    if(enabled){
+    text("list size:",     25,height - 100 + 25);  text(list.size(),  100,height - 100 + 25);
+    text("atWayPoint:",    25,height - 100 + 50);  text(atWayPoint,   100,height - 100 + 50);
+
     }
   }
+}
+
+//CLASS POINT.....
+class Point{
+  int corX, corY;
   
-  private boolean updatePosition(){
-    if(nextX - posX > 0) posX++; else if(nextX - posX < 0) posX--; else posX = nextX;
-    if(nextY - posY > 0) posY++; else if(nextY - posY < 0) posY--; else posY = nextY;
-    return (nextX != posX || nextY != posY);
-  }
-  
-//DEBUGING METHODS........................
-  private void debugingText(){
-    text("deltaX:",     25,25);   text(deltaX,     100,25);
-    text("deltaY:",  25,50);      text(deltaY,  100,50);
-   // text("length:",     25,75);   text(int(sqrt(deltaX*deltaX + deltaY*deltaY)),     100,75);
-    text("stepX:",  25,100);      text(stepX,  100,100);
-    text("stepY:",     25,125);   text(stepY,     100,125);
-   // text("factorStep:",     25,150);   text(factorStep,     100,150);
-  }
-  
-  
+  Point(int x, int y){
+    corX = x;
+    corY = y;
+  }  
 }

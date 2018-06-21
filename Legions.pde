@@ -9,9 +9,9 @@ void setup(){
 void draw(){
   background(204);
   if(mousePressed){
-    army.setNewPosition(mouseX,mouseY);
+  army.addWayPoint(mouseX,mouseY);
   }
-  army.display();
+  army.displayAndUpdate();
   
   debugMouse();
 }
