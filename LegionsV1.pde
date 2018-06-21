@@ -1,5 +1,5 @@
 Army army;
-
+//test
 void setup(){
   size(600,600);  
   army = new Army(width/2, height/2);
