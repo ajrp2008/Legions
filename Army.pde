@@ -1,26 +1,38 @@
 class Army extends MovingPiece{
   
-  ArrayList<Point>  list       = new ArrayList<Point>();
-  int               atWayPoint = 0;
+  private ArrayList<Point>  list       = new ArrayList<Point>();
+  private int               atWayPoint = 0;
+  private boolean           isSelected = false;
   
   Army(int x, int y){
     super(x,y);
   }
   
+  void stopMoving(){
+    list.clear();
+    atWayPoint = 0;
+  }
+  
+  void setSelect(boolean select){
+    this.isSelected = select;
+  }
+  
   void addWayPoint(int x,int y){
-    Point p       =  new Point(x,y);
-    
-    if(list.size()>0){
-      Point p_last  =  list.get(list.size()-1);  
-      if(sqrt((p_last.corX-p.corX)*(p_last.corX-p.corX)+(p_last.corY-p.corY)*(p_last.corY-p.corY))>10)
-       list.add(p);
-    }else{
-      list.add(p);
+    if(isSelected){
+      Point p       =  new Point(x,y);
+      
+      if(list.size()>0){
+        Point p_last  =  list.get(list.size()-1);  
+         if(Utils.dist(p_last,p)>10) list.add(p);
+      }else{
+        list.add(p);
+      }
     }
   }
   
   void displayAndUpdate(){
     super.display();
+    if(!isSelected){noFill();}else{fill(#8492D3);}
     for(Point p: list){
       ellipse(p.corX,p.corY,5,5);
     }
@@ -28,6 +40,9 @@ class Army extends MovingPiece{
       Point p =list.get(atWayPoint);
       super.setNewPosition(p.corX,p.corY);
       atWayPoint++;
+    }
+    if(atWayPoint == list.size() && atWayPoint > 0){
+      stopMoving();
     }
     debugingText(true);
   }
@@ -40,14 +55,4 @@ class Army extends MovingPiece{
 
     }
   }
-}
-
-//CLASS POINT.....
-class Point{
-  int corX, corY;
-  
-  Point(int x, int y){
-    corX = x;
-    corY = y;
-  }  
 }

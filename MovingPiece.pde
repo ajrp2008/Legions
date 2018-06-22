@@ -10,7 +10,15 @@ class MovingPiece{
      nextX= startX;nextY = startY;
   }
   
-  private void setNewPosition(int x, int y){
+  int getPosX(){
+    return posX;
+  }
+  
+  int getPosY(){
+    return posY;
+  }
+  
+  private void setNewPosition(int x, int y){ 
     nextX  = x; nextY = y;
     deltaX = nextX - posX;
     deltaY = nextY- posY;
@@ -30,7 +38,6 @@ class MovingPiece{
   }
   
   private void displayArmy(){
-    if(!keyPressed){noFill();}else{fill(255, 204);}
     triangle(posX + cos(angle-radians(150))*20, posY+sin(angle-radians(150))*20, posX + cos(angle+radians(150))*20, posY+sin(angle+radians(150))*20,posX + cos(angle)*20, posY+sin(angle)*20);
     ellipse(posX,posY,3,3);
   }
@@ -78,7 +85,7 @@ class MovingPiece{
     return (nextX != posX);
   }
   
-  private boolean isMoving(){
+  boolean isMoving(){
     return (nextX != posX)||(nextY != posY);  
   }
   
@@ -88,10 +95,8 @@ class MovingPiece{
     if(enabled){
     text("deltaX:",     25,25);  text(deltaX, 100,25);
     text("deltaY:",     25,50);  text(deltaY, 100,50);
-   //text("length:",   25,75);   text(int(sqrt(deltaX*deltaX + deltaY*deltaY)),     100,75);
     text("stepX:",      25,100); text(stepX, 100,100);
     text("stepY:",      25,125); text(stepY, 100,125);
-   //text("factorStep:",     25,150);   text(factorStep,     100,150);
     }
   }
   

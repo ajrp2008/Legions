@@ -8,9 +8,18 @@ void setup(){
 
 void draw(){
   background(204);
-  if(mousePressed){
-  army.addWayPoint(mouseX,mouseY);
+  
+  if(mousePressed && Utils.dist(army.getPosX(),mouseX,army.getPosY(),mouseY)<10){
+    army.setSelect(true);
+    if(army.isMoving()){army.stopMoving();}
   }
+  if(!mousePressed){
+    army.setSelect(false);
+  }
+  if(mousePressed){
+    army.addWayPoint(mouseX,mouseY);
+  }
+  
   army.displayAndUpdate();
   
   debugMouse();
