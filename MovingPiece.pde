@@ -10,11 +10,11 @@ class MovingPiece{
      nextX= startX;nextY = startY;
   }
   
-  int getPosX(){
+  private int getPosX(){
     return posX;
   }
   
-  int getPosY(){
+  private int getPosY(){
     return posY;
   }
   
@@ -85,7 +85,7 @@ class MovingPiece{
     return (nextX != posX);
   }
   
-  boolean isMoving(){
+  private boolean isMoving(){
     return (nextX != posX)||(nextY != posY);  
   }
   

@@ -8,24 +8,37 @@ class Army extends MovingPiece{
     super(x,y);
   }
   
-  void stopMoving(){
+  void userInput(boolean isMouseClicked, int mouseCoordX, int mouseCoordY){
+    if(isMouseClicked && Utils.dist(super.getPosX(),mouseCoordX,super.getPosY(),mouseCoordY)<10){
+      army.setSelect(true);
+      if(super.isMoving()){army.stopMoving();}
+    }
+    if(!isMouseClicked){
+      army.setSelect(false);
+    }
+    if(isMouseClicked){
+      army.addWayPoint(mouseCoordX,mouseCoordY);
+    }
+  }
+  
+  private void stopMoving(){
     list.clear();
     atWayPoint = 0;
   }
   
-  void setSelect(boolean select){
+  private void setSelect(boolean select){
     this.isSelected = select;
   }
   
-  void addWayPoint(int x,int y){
+  private void addWayPoint(int x,int y){
     if(isSelected){
       Point p       =  new Point(x,y);
       
       if(list.size()>0){
         Point p_last  =  list.get(list.size()-1);  
-         if(Utils.dist(p_last,p)>10) list.add(p);
+         if(Utils.dist(p_last,p)>40) list.add(p);
       }else{
-        list.add(p);
+         if(Utils.dist(super.getPosX(),p.corX,super.getPosY(),p.corY)>40) list.add(p);
       }
     }
   }
