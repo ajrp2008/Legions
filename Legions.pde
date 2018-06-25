@@ -1,4 +1,11 @@
-ArrayList<Army> list = new ArrayList<Army>();
+import java.util.*;
+
+//DEBUG FLAGS
+boolean debugArmyStats  = false;
+boolean debugMousePos   = false;
+//
+
+LinkedList<Army> list = new LinkedList<Army>();
 
 //test
 void setup(){
@@ -22,7 +29,7 @@ void draw(){
       army.displayAndUpdate();
   }
   
-  debugMouse(false);
+  debugMouse(debugMousePos);
 }
 
 //DEBUGING METHODS........................

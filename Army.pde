@@ -1,6 +1,6 @@
 class Army extends MovingPiece{
   
-  private ArrayList<Point>  list       = new ArrayList<Point>();
+  private LinkedList<Point>  list       = new LinkedList<Point>();
   private int               atWayPoint = 0;
   private boolean           isSelected = false;
   
@@ -66,7 +66,7 @@ class Army extends MovingPiece{
     
     
     noFill();
-    debugArmyData(true);
+    debugArmyData(debugArmyStats);
   }
 
 //DEBUGING METHODS........................
