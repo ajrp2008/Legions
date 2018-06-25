@@ -10,14 +10,14 @@ class Army extends MovingPiece{
   
   void userInput(boolean isMouseClicked, int mouseCoordX, int mouseCoordY){
     if(isMouseClicked && Utils.dist(super.getPosX(),mouseCoordX,super.getPosY(),mouseCoordY)<10){
-      army.setSelect(true);
-      if(super.isMoving()){army.stopMoving();}
+      setSelect(true);
+      if(super.isMoving()){stopMoving();}
     }
     if(!isMouseClicked){
-      army.setSelect(false);
+      setSelect(false);
     }
     if(isMouseClicked){
-      army.addWayPoint(mouseCoordX,mouseCoordY);
+      addWayPoint(mouseCoordX,mouseCoordY);
     }
   }
   
@@ -44,28 +44,35 @@ class Army extends MovingPiece{
   }
   
   void displayAndUpdate(){
-    super.display();
     if(!isSelected){noFill();}else{fill(#8492D3);}
+    super.display();
     for(Point p: list){
       ellipse(p.corX,p.corY,5,5);
     }
     if(!super.isMoving() && atWayPoint < list.size()){
-      Point p =list.get(atWayPoint);
+      Point p =list.get(atWayPoint);      
       super.setNewPosition(p.corX,p.corY);
       atWayPoint++;
+     // if(list.size()>3)list.remove(0);
     }
-    if(atWayPoint == list.size() && atWayPoint > 0){
+    
+    if(atWayPoint == list.size() && atWayPoint > 0){ 
       stopMoving();
     }
-    debugingText(true);
+    
+    
+    noFill();
+    debugArmyData(true);
   }
 
 //DEBUGING METHODS........................
-  private void debugingText(boolean enabled){
+  private void debugArmyData(boolean enabled){
     if(enabled){
-    text("list size:",     25,height - 100 + 25);  text(list.size(),  100,height - 100 + 25);
-    text("atWayPoint:",    25,height - 100 + 50);  text(atWayPoint,   100,height - 100 + 50);
-
+      text("Seleced: " +  isSelected,super.getPosX(),super.getPosY()+20);
+      text("PosX " + super.getPosX() + "PosY " + super.getPosX(),super.getPosX(),super.getPosY()+40);
+      text("AtwayPoint: " + atWayPoint,super.getPosX(),super.getPosY()+60);
+    text("list size: "+list.size(), super.getPosX(),super.getPosY()+80);
     }
   }
+
 }
