@@ -53,7 +53,7 @@ class Army extends MovingPiece{
       Point p =list.get(atWayPoint);      
       super.setNewPosition(p.corX,p.corY);
       atWayPoint++;
-      //hej
+      //hej 2
      // if(list.size()>3)list.remove(0);
     }
     
