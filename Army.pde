@@ -11,7 +11,7 @@ class Army extends MovingPiece{
   void userInput(boolean isMouseClicked, int mouseCoordX, int mouseCoordY){
     if(isMouseClicked && Utils.dist(super.getPosX(),mouseCoordX,super.getPosY(),mouseCoordY)<10){
       setSelect(true);
-      if(super.isMoving()){stopMoving();}
+      if(super.arrivedAtWayPoint()){stopMoving();}
     }
     if(!isMouseClicked){
       setSelect(false);
@@ -49,15 +49,18 @@ class Army extends MovingPiece{
     for(Point p: list){
       ellipse(p.corX,p.corY,5,5);
     }
-    if(!super.isMoving() && atWayPoint < list.size()){
-      Point p =list.get(atWayPoint);      
+    //if(!super.isMoving() && atWayPoint < list.size()){
+    if(!super.arrivedAtWayPoint() && list.size()>0){  //Continue until list is empty!      
+      Point p =list.get(0);      
+      list.remove(0);
+      //if(!super.arrivedAtWayPoint()){list.remove(0);} //IMPORTENT: If waypoint removed befor get(waypoint) we get the wrong point!
       super.setNewPosition(p.corX,p.corY);
-      atWayPoint++;
+      atWayPoint++;                                   //IMPORTENT: we dont use waypoint as indicator anymore!
       //hej 2
-     // if(list.size()>3)list.remove(0);
     }
     
-    if(atWayPoint == list.size() && atWayPoint > 0){ 
+    //if(atWayPoint == list.size() && atWayPoint > 0){ 
+    if(list.size()<1){                                //stop when list is empty
       stopMoving();
     }
     

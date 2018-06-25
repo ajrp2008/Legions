@@ -85,7 +85,7 @@ class MovingPiece{
     return (nextX != posX);
   }
   
-  private boolean isMoving(){
+  private boolean arrivedAtWayPoint(){
     return (nextX != posX)||(nextY != posY);  
   }
   

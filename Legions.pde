@@ -3,13 +3,15 @@ ArrayList<Army> list = new ArrayList<Army>();
 //test
 void setup(){
   size(600,600);
-  for(int i = 0; i<1;i++){
-    for(int j = 0; j<1;j++){
-      list.add(new Army(width/2-250+i*100,height/2-250+j*100));
+  
+  for(int i = 0; i<5;i++){
+    for(int j = 0; j<5;j++){
+      list.add(new Army(width/2-250+i*50,height/2-250+j*50));
     }
   }
   
   rectMode(CENTER);
+  //frameRate(15);
 }
 
 void draw(){
@@ -20,10 +22,12 @@ void draw(){
       army.displayAndUpdate();
   }
   
-  debugMouse();
+  debugMouse(false);
 }
 
 //DEBUGING METHODS........................
-  private void debugMouse(){
-    text("mouseX: " + mouseX + " mouseY: "+ mouseY,     width - 200,25);
+  private void debugMouse(boolean enable){
+    if(enable){
+      text("mouseX: " + mouseX + " mouseY: "+ mouseY,     width - 200,25);
+    }
   }
