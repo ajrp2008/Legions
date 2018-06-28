@@ -18,6 +18,14 @@ class MovingPiece{
     return posY;
   }
   
+  private int getNextPosX(){
+    return nextX;
+  }
+  
+  private int getNextPosY(){
+    return nextY;
+  }
+  
   private void setNewPosition(int x, int y){ 
     nextX  = x; nextY = y;
     deltaX = nextX - posX;
