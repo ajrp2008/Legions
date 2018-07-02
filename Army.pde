@@ -1,7 +1,6 @@
 class Army extends MovingPiece{
   
   private LinkedList<Point>  list       = new LinkedList<Point>();
-  private int               atWayPoint = 0;
   private boolean           isSelected = false;
   
   Army(int x, int y){
@@ -17,20 +16,19 @@ class Army extends MovingPiece{
       setSelect(false);
     }
     if(isMouseClicked){
-      addWayPoint(mouseCoordX,mouseCoordY);
+      addWayPointIfSelected(mouseCoordX,mouseCoordY);
     }
   }
   
   private void stopMoving(){
     list.clear();
-    atWayPoint = 0;
   }
   
   private void setSelect(boolean select){
     this.isSelected = select;
   }
   
-  private void addWayPoint(int x,int y){
+  private void addWayPointIfSelected(int x,int y){
     if(isSelected){
       Point p       =  new Point(x,y);
       
@@ -44,38 +42,44 @@ class Army extends MovingPiece{
   }
   
   void displayAndUpdate(){
-    if(!isSelected){noFill();}else{fill(#8492D3);}
+    display();
+    update();
+    debugArmyData(debugArmyStats);
+  }
+  
+  private void display(){
+  if(!isSelected){noFill();}else{fill(#8492D3);}
     super.display();
     for(Point p: list){
       ellipse(p.corX,p.corY,5,5);
     }
-    //if(!super.isMoving() && atWayPoint < list.size()){
-    if(!super.arrivedAtWayPoint() && list.size()>0){  //Continue until list is empty!      
+    ellipse(super.getNextPosX(), super.getNextPosY(),5,5);
+  noFill();
+
+  }
+  
+  private void update(){
+      if(!super.arrivedAtWayPoint() && list.size()>0){  //Continue until list is empty!      
       Point p =list.get(0);      
       list.remove(0);
-      //if(!super.arrivedAtWayPoint()){list.remove(0);} //IMPORTENT: If waypoint removed befor get(waypoint) we get the wrong point!
       super.setNewPosition(p.corX,p.corY);
-      atWayPoint++;                                   //IMPORTENT: we dont use waypoint as indicator anymore!
-      //hej 2
     }
     
-    //if(atWayPoint == list.size() && atWayPoint > 0){ 
     if(list.size()<1){                                //stop when list is empty
       stopMoving();
-    }
-    
-    
-    noFill();
-    debugArmyData(debugArmyStats);
+    }  
   }
+  
+  
+  
+  
 
 //DEBUGING METHODS........................
   private void debugArmyData(boolean enabled){
     if(enabled){
       text("Seleced: " +  isSelected,super.getPosX(),super.getPosY()+20);
       text("PosX " + super.getPosX() + "PosY " + super.getPosX(),super.getPosX(),super.getPosY()+40);
-      text("AtwayPoint: " + atWayPoint,super.getPosX(),super.getPosY()+60);
-    text("list size: "+list.size(), super.getPosX(),super.getPosY()+80);
+      text("list size: "+list.size(), super.getPosX(),super.getPosY()+80);
     }
   }
 

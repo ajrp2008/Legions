@@ -1,9 +1,9 @@
 import java.util.*;
 
 //DEBUG FLAGS
-boolean debugArmyStats  = false;
+boolean debugArmyStats  = true;
 boolean debugMousePos   = false;
-//
+// 
 
 LinkedList<Army> list = new LinkedList<Army>();
 
